@@ -1,5 +1,9 @@
 # Recipe Ingestion and Calculation Script
 
+# Summary:
+
+This codebase comprises a Recipe Calculator that scrapes a specific recipe (e.g., Carbonara) from a designated URL (https://www.cookingnook.com/recipe/carbonara/) and allows users to scale its serving size. The script provides functionality to ingest the recipe, perform calculations based on desired serving sizes and unit systems, and exposes FastAPI endpoints for triggering ingestion and calculations. Additionally, the codebase includes Docker configuration for easy deployment by containerizing the application.
+
 ## Setup:
 
 1. Python Environment:
