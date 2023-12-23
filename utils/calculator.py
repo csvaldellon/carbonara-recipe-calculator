@@ -1,31 +1,16 @@
+import os
 from typing import List
 
-from .config import RECIPE_URL
+import pandas as pd
+
+from .config import RECIPE_URL, INGESTION_PATH
 from .logger import logger
-from .scaler import scale_quantity, separate_units
-from .scraper import scrape_recipe
+from .transformation import scale_quantity, separate_units
+from .ingestion import scrape_recipe
 
 
-def calculate_recipe(serving_size: int, unit_system: str) -> List[str]:
-    """
-    Orchestrates the scraping, scaling, and formatting of the recipe.
-
-    Steps:
-    1. Scrapes the recipe ingredients.
-    2. Separates quantities from ingredients.
-    3. Scales ingredient quantities based on the serving size.
-    4. Formats the ingredients into a list of strings.
-
-    Args:
-    - serving_size (int): The desired serving size for the recipe.
-
-    Returns:
-    - List[str]: A list of strings representing the ingredients for the adjusted serving size.
-
-    Raises:
-    - Exception: If there's an issue with the calculation process.
-    """
-    try:
+def load_default_recipe(unit_system, ignore_ingested_recipe):
+    if ignore_ingested_recipe or not os.path.exists(INGESTION_PATH):
         logger.info(f"Scraping recipe from URL ({RECIPE_URL})...")
         scraped_recipe = scrape_recipe(RECIPE_URL, unit_system)
         if not scraped_recipe:
@@ -33,10 +18,20 @@ def calculate_recipe(serving_size: int, unit_system: str) -> List[str]:
             return []
         logger.info(f"Successfully scraped recipe from URL ({RECIPE_URL}).")
 
+    df_recipe = pd.read_csv(INGESTION_PATH)
+    default_recipe = df_recipe[unit_system].tolist()
+    return default_recipe
+
+
+def calculate_recipe(
+    serving_size: int, unit_system: str, ignore_ingested_recipe=False
+) -> List[str]:
+    try:
+        default_recipe = load_default_recipe(unit_system, ignore_ingested_recipe)
         logger.info(
             f"Scaling quantities of ingredients based on serving size: {serving_size}..."
         )
-        ingredients_df = separate_units(scraped_recipe)
+        ingredients_df = separate_units(default_recipe)
         ingredients_df["scaled_quantity"] = ingredients_df["quantity"].apply(
             lambda x: scale_quantity(x, serving_size)
         )
