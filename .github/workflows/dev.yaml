@@ -23,4 +23,4 @@ jobs:
         run: docker build -t carbonara-recipe-calculator .
 
       - name: Run Docker container
-        run: docker run carbonara-recipe-calculator
+        run: docker run carbonara-recipe-calculator sh -c "echo 'Running container for 60 seconds...'; sleep 60"
