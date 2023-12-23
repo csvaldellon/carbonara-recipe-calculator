@@ -6,12 +6,12 @@
    - Ensure Python 3.x is installed.
 
 2. Install Dependencies:
-   - Run `pip install -r requirements.txt` to install required dependencies (`requests`, `beautifulsoup4`, `selenium`).
+   - Run `pip install -r requirements/script.txt` to install required dependencies (`requests`, `beautifulsoup4`, `selenium`).
 
 3. WebDriver Setup (for Selenium):
    - Install the appropriate WebDriver (e.g., ChromeDriver) and configure its path in the system environment variables.
 
-4. Docker Setup:
+4. Docker Setup (optional):
    - Ensure Docker is installed and running on your system.
 
 ## Script Usage:
@@ -29,9 +29,9 @@
 
 #### Ingestion:
 - To scrape default recipe and save as CSVs for both unit systems (will skip if CSVs already exist):
-    `python script.py -ingestion`
+    - `python script.py -ingestion`
 - To force re-ingestion regardless if CSVs already exist or not:
-    `python script.py -ingestion --force_ingestion`
+    - `python script.py -ingestion --force_ingestion`
 
 #### Recipe Calculation:
 - To calculate recipe using default values (`serving_size=4` and `unit_system='US Customary'`):
