@@ -33,7 +33,7 @@ This Python script scrapes a recipe from a specified URL and adjusts the ingredi
 3. **Run the Script:**
 
     ```
-    python recipe_calculator.py --serving_size=4
+    python script.py --serving_size=4
     ```
 
     Replace `4` with the desired serving size.
