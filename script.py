@@ -1,6 +1,6 @@
 import argparse
 
-from recipe_calculator import calculate_recipe
+from utils.calculator import calculate_recipe
 from utils.config import DEFAULT_SERVING_SIZE
 
 

@@ -1,9 +1,9 @@
 from typing import List
 
-from utils.config import RECIPE_URL
-from utils.logger import logger
-from utils.scaler import scale_quantity, separate_units
-from utils.scraper import scrape_recipe
+from .config import RECIPE_URL
+from .logger import logger
+from .scaler import scale_quantity, separate_units
+from .scraper import scrape_recipe
 
 
 def calculate_recipe(serving_size: int) -> List[str]:
