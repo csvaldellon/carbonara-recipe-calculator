@@ -1,10 +1,13 @@
-FROM python:3.9-slim
+FROM selenium/standalone-chrome
 
 WORKDIR /carbonara-recipe-calculator
 
 COPY ./requirements.txt ./requirements.txt
 
-RUN pip install -r ./requirements.txt
+USER root
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python3 get-pip.py
+RUN python3 -m pip install -r ./requirements.txt
 
 COPY . ./
 

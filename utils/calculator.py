@@ -6,7 +6,7 @@ import pandas as pd
 from .config import RECIPE_URL
 from .ingestion import get_ingestion_path, scrape_recipe
 from .logger import logger
-from .transformation import scale_quantity, separate_units
+from .transformation import scale_quantity
 
 
 def load_default_recipe(unit_system, ignore_ingested_recipe):
