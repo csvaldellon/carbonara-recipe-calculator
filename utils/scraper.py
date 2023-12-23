@@ -1,12 +1,12 @@
 from typing import List
+
 import requests
 from bs4 import BeautifulSoup
 
-from ..logger import logger
+from .logger import logger
 
-def scrape_recipe(
-    url: str
-) -> List[str]:
+
+def scrape_recipe(url: str) -> List[str]:
     """
     Fetches and extracts the ingredients list from the specified URL.
 
@@ -26,8 +26,8 @@ def scrape_recipe(
     try:
         response = requests.get(url)
         response.raise_for_status()
-        soup = BeautifulSoup(response.content, 'html.parser')
-        ingredients = soup.find('ul', class_='wprm-recipe-ingredients').find_all('li')
+        soup = BeautifulSoup(response.content, "html.parser")
+        ingredients = soup.find("ul", class_="wprm-recipe-ingredients").find_all("li")
         ingredient_list = [ingredient.get_text() for ingredient in ingredients]
         return ingredient_list
     except requests.RequestException as e:

@@ -1,14 +1,12 @@
-from typing import List
 import re
+from typing import List
+
 import pandas as pd
 
-from .logger import logger
-from ..config import DEFAULT_SERVING_SIZE
+from .config import DEFAULT_SERVING_SIZE
 
 
-def separate_units(
-    ingredients: List[str]
-) -> pd.DataFrame:
+def separate_units(ingredients: List[str]) -> pd.DataFrame:
     """
     Splits the ingredients into quantities and ingredients.
 
@@ -22,15 +20,24 @@ def separate_units(
     Returns:
     - pd.DataFrame: DataFrame containing columns 'quantity' and 'ingredient'.
     """
+
     def split_ingredient(ingredient):
-        parts = re.split(r'(\d+\.?\d*\s*\-?\s*\d*\/?\d*)\s+(?=[^\d]+$)', ingredient)
-        return {'quantity': parts[-2].strip(), 'ingredient': parts[-1].strip()} if len(parts) > 1 else {'quantity': '', 'ingredient': ingredient.strip()}
+        parts = re.split(r"(\d+\.?\d*\s*\-?\s*\d*\/?\d*)\s+(?=[^\d]+$)", ingredient)
+        return (
+            {"quantity": parts[-2].strip(), "ingredient": parts[-1].strip()}
+            if len(parts) > 1
+            else {"quantity": "", "ingredient": ingredient.strip()}
+        )
 
     return pd.DataFrame([split_ingredient(ingredient) for ingredient in ingredients])
 
 
 def scale_quantity(
-    quantity: str, serving_size: int, division_operation: str = "/", range_operation: str = " - ", round_decimal_units: int = 2
+    quantity: str,
+    serving_size: int,
+    division_operation: str = "/",
+    range_operation: str = " - ",
+    round_decimal_units: int = 2,
 ) -> str:
     """
     Scales the quantity of an ingredient based on the serving size.

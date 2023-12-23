@@ -1,7 +1,7 @@
 import argparse
 
-from config import DEFAULT_SERVING_SIZE
 from recipe_calculator import calculate_recipe
+from utils.config import DEFAULT_SERVING_SIZE
 
 
 def parse_arguments() -> argparse.Namespace:
