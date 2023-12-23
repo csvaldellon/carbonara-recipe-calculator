@@ -63,6 +63,7 @@ def run_recipe_tasks(args):
         ignore_ingested_recipe = args.ignore_ingested_recipe
         recipe = calculate_recipe(serving_size, unit_system, ignore_ingested_recipe)
         if recipe:
+            print("\n\n***CARBONARA RECIPE CALCULATED:\n")
             for line in recipe:
                 print(line)
         else:

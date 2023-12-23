@@ -1,4 +1,5 @@
 import re
+from decimal import ROUND_HALF_UP, Decimal
 from typing import List
 
 import pandas as pd
@@ -32,12 +33,33 @@ def separate_units(ingredients: List[str]) -> pd.DataFrame:
     return pd.DataFrame([split_ingredient(ingredient) for ingredient in ingredients])
 
 
+def round_and_scale(
+    operand: float, quantity_multiplier: float, round_decimal_place: str = ".01"
+):
+    """
+    Rounds the product of 'operand' multiplied by 'quantity_multiplier' to a specified decimal place.
+
+    Args:
+    - operand (float): The number to be multiplied.
+    - quantity_multiplier (float): The value by which 'operand' is multiplied.
+    - round_decimal_place (str, optional): The decimal place to which the result will be rounded. Defaults to ".01".
+
+    Returns:
+    - float: The result of 'operand' multiplied by 'quantity_multiplier', rounded to the specified decimal place.
+    """
+    scaled_operand = operand * quantity_multiplier
+    return float(
+        Decimal(scaled_operand).quantize(
+            Decimal(round_decimal_place), rounding=ROUND_HALF_UP
+        )
+    )
+
+
 def scale_quantity(
     quantity: str,
     serving_size: int,
     division_operation: str = "/",
     range_operation: str = " - ",
-    round_decimal_units: int = 2,
 ) -> str:
     """
     Scales the quantity of an ingredient based on the serving size.
@@ -51,7 +73,6 @@ def scale_quantity(
     - serving_size (int): The desired serving size.
     - division_operation (str): Symbol for division in the quantity (default: "/").
     - range_operation (str): Symbol for a range of quantities (default: " - ").
-    - round_decimal_units (int): Decimal places to round to (default: 2).
 
     Returns:
     - str: Scaled quantity based on the serving size.
@@ -69,10 +90,10 @@ def scale_quantity(
 
     if division_operation in quantity:
         num, denom = map(float, quantity.split(division_operation))
-        return str(round((num / denom) * quantity_multiplier, round_decimal_units))
+        return str(round_and_scale(num / denom, quantity_multiplier))
 
     if range_operation in quantity:
         from_qty, to_qty = map(float, quantity.split(range_operation))
-        return f"{round(from_qty * quantity_multiplier, round_decimal_units)} - {round(to_qty * quantity_multiplier, round_decimal_units)}"
+        return f"{round_and_scale(from_qty, quantity_multiplier)} - {round_and_scale(to_qty, quantity_multiplier)}"
 
-    return str(round(float(quantity) * quantity_multiplier, round_decimal_units))
+    return str(round_and_scale(float(quantity), quantity_multiplier))
