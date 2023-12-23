@@ -1,7 +1,7 @@
 from selenium.webdriver.chrome.options import Options
 
 RECIPE_URL = "https://www.cookingnook.com/recipe/carbonara/"
-INGESTION_PATH = "./scraped_default_ingredients.csv"
+INGESTION_PATH = "./scraped_default_ingredients"
 DEFAULT_SERVING_SIZE = 4
 VALID_UNIT_SYSTEMS = {"us": "US Customary", "metric": "Metric"}
 

@@ -1,16 +1,17 @@
 import os
 from typing import List
 
-import requests
 import pandas as pd
+import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-from .config import selenium_options, RECIPE_URL, VALID_UNIT_SYSTEMS, INGESTION_PATH
+from .config import INGESTION_PATH, RECIPE_URL, VALID_UNIT_SYSTEMS, selenium_options
 from .logger import logger
+from .transformation import separate_units
 
 
 def scrape_recipe(url: str, unit_system: str) -> List[str]:
@@ -57,24 +58,21 @@ def scrape_recipe(url: str, unit_system: str) -> List[str]:
     return []
 
 
-def ingest_recipe(force_ingestion=False, ingestion_path=INGESTION_PATH):
-    path_exists = os.path.exists(ingestion_path)
-    if path_exists and not force_ingestion:
-        logger.info(f"The file path '{ingestion_path}' exists. Stopping ingestion.")
-        return
+def get_ingestion_path(unit_system):
+    return INGESTION_PATH + "_" + unit_system.lower().replace(" ", "_") + ".csv"
 
-    logger.info(
-        f"The file path '{ingestion_path}' does not exist or force_ingestion flag is set. Proceeding with initial ingestion..."
-    )
 
-    us_recipe = scrape_recipe(RECIPE_URL, VALID_UNIT_SYSTEMS["us"])
-    metric_recipe = scrape_recipe(RECIPE_URL, VALID_UNIT_SYSTEMS["metric"])
-
-    df_recipe = pd.DataFrame(
-        {
-            VALID_UNIT_SYSTEMS["us"]: us_recipe,
-            VALID_UNIT_SYSTEMS["metric"]: metric_recipe,
-        }
-    )
-    df_recipe.to_csv(ingestion_path)
-    logger.info(f"Successfully ingested default recipe to {ingestion_path}")
+def ingest_recipe(force_ingestion=False):
+    for unit_system in VALID_UNIT_SYSTEMS.values():
+        ingestion_path = get_ingestion_path(unit_system)
+        path_exists = os.path.exists(ingestion_path)
+        if path_exists and not force_ingestion:
+            logger.info(f"The file path '{ingestion_path}' exists. Stopping ingestion.")
+        else:
+            logger.info(
+                f"The file path '{ingestion_path}' does not exist or force_ingestion flag is set. Proceeding with initial ingestion..."
+            )
+            scraped_recipe = scrape_recipe(RECIPE_URL, unit_system)
+            df_ingredients = separate_units(scraped_recipe)
+            df_ingredients.to_csv(ingestion_path)
+            logger.info(f"Successfully ingested default recipe to {ingestion_path}")
