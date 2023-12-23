@@ -1,11 +1,13 @@
-import sys
 import argparse
-from utils.ingestion import ingest_recipe
+import sys
+
 from utils.calculator import calculate_recipe
 from utils.config import DEFAULT_SERVING_SIZE, VALID_UNIT_SYSTEMS
+from utils.ingestion import ingest_recipe
 
 
-if __name__ == "__main__":
+def parse_arguments():
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Script to ingest recipes and calculate servings."
     )
@@ -41,13 +43,15 @@ if __name__ == "__main__":
         "--ignore_ingested_recipe",
         action="store_true",
         default=False,
-        help="Ignore ingested recipe and scrapes the recipe from scratch before calculation.",
+        help="Ignore ingested recipe and scrape the recipe from scratch before calculation.",
     )
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
+
+def run_recipe_tasks(args):
+    """Execute recipe-related tasks based on command line arguments."""
     if not (args.ingestion or args.calculate):
-        parser.print_help()
         sys.exit("\nPlease specify either '-ingestion' or '-calculate'.")
 
     if args.ingestion:
@@ -62,4 +66,11 @@ if __name__ == "__main__":
             for line in recipe:
                 print(line)
         else:
-            print("Recipe calculation failed.")
+            print(
+                "Failed to calculate the recipe. Please check the inputs and try again."
+            )
+
+
+if __name__ == "__main__":
+    arguments = parse_arguments()
+    run_recipe_tasks(arguments)
