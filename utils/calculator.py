@@ -26,11 +26,16 @@ def calculate_recipe(serving_size: int) -> List[str]:
     - Exception: If there's an issue with the calculation process.
     """
     try:
+        logger.info(f"Scraping recipe from URL ({RECIPE_URL})...")
         scraped_recipe = scrape_recipe(RECIPE_URL)
         if not scraped_recipe:
             logger.warning("Failed to scrape recipe. Empty recipe received.")
             return []
+        logger.info(f"Successfully scraped recipe from URL ({RECIPE_URL}).")
 
+        logger.info(
+            f"Scaling quantities of ingredients based on serving size: {serving_size}..."
+        )
         ingredients_df = separate_units(scraped_recipe)
         ingredients_df["scaled_quantity"] = ingredients_df["quantity"].apply(
             lambda x: scale_quantity(x, serving_size)
@@ -39,6 +44,9 @@ def calculate_recipe(serving_size: int) -> List[str]:
             ingredients_df["scaled_quantity"] + " " + ingredients_df["ingredient"]
         )
         ingredients_df["recipe_line"] = ingredients_df["recipe_line"].str.strip()
+        logger.info(
+            f"Successfully scaled quantities of ingredients based on serving size: {serving_size}."
+        )
 
         return ingredients_df["recipe_line"].tolist()
     except Exception as e:

@@ -14,7 +14,7 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Recipe Calculator")
     parser.add_argument(
         "--serving_size",
-        type=int,
+        type=float,
         default=DEFAULT_SERVING_SIZE,
         help="Desired serving size for the recipe (default: 4)",
     )
