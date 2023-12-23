@@ -2,7 +2,14 @@
 
 ## Summary:
 
-This codebase comprises a Recipe Calculator that scrapes a specific recipe (e.g., Carbonara) from a designated URL (https://www.cookingnook.com/recipe/carbonara/) and allows users to scale its serving size. The script provides functionality to ingest the recipe, perform calculations based on desired serving sizes and unit systems, and exposes FastAPI endpoints for triggering ingestion and calculations. Additionally, the codebase includes Docker configuration for easy deployment by containerizing the application.
+The Recipe Calculator scrapes a specific recipe (e.g., Carbonara) from a designated URL (https://www.cookingnook.com/recipe/carbonara/) and facilitates scaling its serving size. The codebase includes functionality for recipe ingestion, scaling, and provides Docker configuration for easy deployment by containerizing the application.
+
+
+This codebase provides two primary methods to interact with the Recipe Calculator:
+
+1. **Running the Script:** Users can execute the `script.py` file via the command line interface (CLI) tool, such as Git Bash. This method allows direct utilization of the codebase to perform recipe ingestion and calculations.
+
+2. **FastAPI Endpoint Usage:** Alternatively, users can interact with the provided FastAPI endpoints via the `api.py` file. FastAPI exposes endpoints, enabling interaction through Swagger documentation (for demonstration purposes). In a production environment, these FastAPI endpoints can be deployed in the cloud for scalable usage.
 
 ## Setup:
 
