@@ -20,7 +20,7 @@ This Python script scrapes a recipe from a specified URL and adjusts the ingredi
 1. **Clone the Repository:**
 
     ```
-    git clone https://github.com/csvaldellon/recipe-calculator.git
+    git clone https://github.com/csvaldellon/carbonara-recipe-calculator.git
     cd recipe-calculator
     ```
 
