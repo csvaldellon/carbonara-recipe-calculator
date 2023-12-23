@@ -6,7 +6,7 @@ from .scaler import scale_quantity, separate_units
 from .scraper import scrape_recipe
 
 
-def calculate_recipe(serving_size: int) -> List[str]:
+def calculate_recipe(serving_size: int, unit_system: str) -> List[str]:
     """
     Orchestrates the scraping, scaling, and formatting of the recipe.
 
@@ -27,7 +27,7 @@ def calculate_recipe(serving_size: int) -> List[str]:
     """
     try:
         logger.info(f"Scraping recipe from URL ({RECIPE_URL})...")
-        scraped_recipe = scrape_recipe(RECIPE_URL)
+        scraped_recipe = scrape_recipe(RECIPE_URL, unit_system)
         if not scraped_recipe:
             logger.warning("Failed to scrape recipe. Empty recipe received.")
             return []
