@@ -1,6 +1,11 @@
 # https://pre-commit.com/
 
 repos:
+-  repo: https://github.com/pre-commit/mirrors-isort
+   rev: v5.10.1
+   hooks:
+    -   id: isort
+        args: ["--profile", "black"]
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
     hooks:
