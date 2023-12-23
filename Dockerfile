@@ -2,7 +2,7 @@ FROM selenium/standalone-chrome
 
 WORKDIR /carbonara-recipe-calculator
 
-COPY ./requirements.txt ./requirements.txt
+COPY ./requirements/api.txt ./requirements/api.txt
 
 USER root
 RUN wget https://bootstrap.pypa.io/get-pip.py
