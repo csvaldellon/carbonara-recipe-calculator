@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_run_docker:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,13 +17,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Specify your Python version here
+          python-version: '3.9'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Replace with your dependencies if needed
+      - name: Build Docker image
+        run: docker build -t carbonara-recipe-calculator .
 
-      - name: Run tests  # Replace with your test commands
-        run: |
-          pytest
+      - name: Run Docker container
+        run: docker run carbonara-recipe-calculator
