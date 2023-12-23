@@ -11,24 +11,45 @@
 3. WebDriver Setup (for Selenium):
    - Install the appropriate WebDriver (e.g., ChromeDriver) and configure its path in the system environment variables.
 
-## Usage:
+4. Docker Setup:
+   - Ensure Docker is installed and running on your system.
+
+## Script Usage:
 
 ### Command Line Arguments:
 
 - `-ingestion`: Perform recipe ingestion.
-- `--force_ingestion`: Force ingestion even if the ingestion path exists.
+- `--force_ingestion`: Force ingestion even if the ingestion path exists (default is `False`).
 - `-calculate`: Perform recipe calculation.
-- `--serving_size`: Specify desired serving size.
-- `--unit_system`: Choose unit system ('us' or 'metric') for calculations.
-- `--ignore_ingested_recipe`: Ignore ingested recipe and scrape from scratch before calculation.
+- `--serving_size`: Specify desired serving size (default is `4`).
+- `--unit_system`: Choose unit system ('US Customary' or 'Metric') for calculations (default is 'US Customary').
+- `--ignore_ingested_recipe`: Ignore ingested recipe and scrape from scratch before calculation (default is `False`).
 
 ### Running the Script:
 
 #### Ingestion:
-`python script_name.py -ingestion`
+`python script.py -ingestion`
+`python script.py -ingestion --force_ingestion`
 
 #### Recipe Calculation:
-`python script_name.py -calculate --serving_size 4 --unit_system us`
+`python script.py -calculate --serving_size=1 --unit_system='US Customary'`
+`python script.py -calculate --serving_size=1 --unit_system=Metric`
+`python script.py -calculate --serving_size=1 --unit_system=Metric --ignore_ingested_recipe`
+
+## API Usage:
+
+### FastAPI Endpoints:
+
+- `/ingest_recipe`: GET endpoint to trigger recipe ingestion.
+- `/calculate_recipe`: GET endpoint to calculate the recipe based on specified parameters.
+
+### Docker:
+
+- To build the Docker image:
+  `docker build -t recipe-calculator .`
+- To run the Docker container:
+  `docker run -d -p 5000:5000 recipe-calculator`
+- To view the FastAPI Swagger Docs, visit `http://127.0.0.1:5000/docs`
 
 ## Notes:
 
