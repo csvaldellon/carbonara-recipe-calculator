@@ -1,47 +1,36 @@
-# carbonara-recipe-calculator
+# Recipe Ingestion and Calculation Script
 
-# Recipe Calculator
+## Setup:
 
-This Python script scrapes a recipe from a specified URL and adjusts the ingredient quantities based on a desired serving size.
+1. Python Environment:
+   - Ensure Python 3.x is installed.
 
-## Features
+2. Install Dependencies:
+   - Run `pip install -r requirements.txt` to install required dependencies (`requests`, `beautifulsoup4`, `selenium`).
 
-- **Scraping**: Fetches the ingredients list from a provided recipe URL.
-- **Scaling**: Adjusts ingredient quantities based on the desired serving size.
-- **Formatting**: Presents the ingredients list for the adjusted serving size.
+3. WebDriver Setup (for Selenium):
+   - Install the appropriate WebDriver (e.g., ChromeDriver) and configure its path in the system environment variables.
 
-## Requirements
+## Usage:
 
-- Python 3.x
-- Libraries: `requests`, `BeautifulSoup`, `pandas`
+### Command Line Arguments:
 
-## Usage
+- `-ingestion`: Perform recipe ingestion.
+- `--force_ingestion`: Force ingestion even if the ingestion path exists.
+- `-calculate`: Perform recipe calculation.
+- `--serving_size`: Specify desired serving size.
+- `--unit_system`: Choose unit system ('us' or 'metric') for calculations.
+- `--ignore_ingested_recipe`: Ignore ingested recipe and scrape from scratch before calculation.
 
-1. **Clone the Repository:**
+### Running the Script:
 
-    ```
-    git clone https://github.com/csvaldellon/carbonara-recipe-calculator.git
-    cd recipe-calculator
-    ```
+#### Ingestion:
+`python script_name.py -ingestion`
 
-2. **Install Dependencies:**
+#### Recipe Calculation:
+`python script_name.py -calculate --serving_size 4 --unit_system us`
 
-    ```
-    pip install -r requirements.txt
-    ```
+## Notes:
 
-3. **Run the Script:**
-
-    ```
-    python script.py --serving_size=4
-    ```
-
-    Replace `4` with the desired serving size.
-
-## Command-line Arguments
-
-- `--serving_size`: Specify the serving size for the recipe (default: 4).
-
-## Notes
-
-- The script might require adjustments for different websites' HTML structures if used for scraping recipes from other sources.
+- For recipe calculations, ensure the WebDriver for Selenium is correctly installed and configured.
+- The script offers flexibility in managing recipes and serving sizes through ingestion and calculation options.
